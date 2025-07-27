@@ -85,6 +85,8 @@ sysctl -p /etc/sysctl.conf
 ### Step 7: Modify containerd Configuration for systemd Support
 ```bash
 sudo nano /etc/containerd/config.toml
+
+### remove all content inside and paste below content
 ```
 #### Paste the configuration in the file and save it.
 ```bash
@@ -327,12 +329,20 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 ### Step 10: Initialize the Cluster and Install CNI
 ```bash
-sudo kubeadm config images pull
-sudo kubeadm init
+sudo kubeadm config images pull 
+### run in both master and worker
+sudo kubeadm init 
+###run in worker only
+###token will generate something like
+###kubeadm join <ip>:6443 --token 621xu3.3330kbyfg3i5kyie \
+ ###       --discovery-token-ca-cert-hash sha256:c1225e2bd2470fc6f45556186941959cb245a8309a61ee0a76dbdffba135e7cc
+###this token should paste in all worker node
 ```
 #### After Initialzing the Cluster Connect to it and apply the CNI yaml (We're using Weave CNI in this guide)
 
 ```bash
+
+###in master
 #To start using your cluster, you need to run the following as a regular user:
 
 mkdir -p $HOME/.kube
@@ -345,12 +355,16 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 ```
 ```bash
 #Apply the CNI YAML
+###in master
 kubectl apply -f https://reweave.azurewebsites.net/k8s/v1.30/net.yaml
 ```
 
 ### Step 11: Join Worker Nodes to the Cluster
 #### Run the command generated after initializing the master node on each worker node. For example:
+
+
 ```bash
+###not mandatory as of now
 kubeadm join 192.168.122.100:6443 --token zcijug.ye3vrct74itrkesp \
         --discovery-token-ca-cert-hash sha256:e9dd1a0638a5a1aa1850c16f4c9eeaa2e58d03f97fd0403f587c69502570c9cd
 ```
