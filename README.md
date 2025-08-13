@@ -334,6 +334,9 @@ sudo kubeadm config images pull
 sudo kubeadm init 
 ###run in worker only
 ###token will generate something like
+
+sudo--- to add we use sudo
+
 ###kubeadm join <ip>:6443 --token 621xu3.3330kbyfg3i5kyie \
  ###       --discovery-token-ca-cert-hash sha256:c1225e2bd2470fc6f45556186941959cb245a8309a61ee0a76dbdffba135e7cc
 ###this token should paste in all worker node
